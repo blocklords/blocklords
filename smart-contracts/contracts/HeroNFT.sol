@@ -2,18 +2,19 @@ pragma solidity ^0.5.0;
 
 // import "./common/Ownable.sol";
 // import "./MetadataStore.sol";
-import 'node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol';
+import '../node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol';
 
 /**
 * @title HeroToken
 * @author Arseny Kin
 * @notice Contract for ERC721 Hero token
 */
+
 contract HeroToken is ERC721Full/*, Ownable, MetadataStore*/ {
 
     address public blocklords;
 
-    function setBlocklordsAddress(address _blocklords) public onlyOwner {
+    function setBlocklordsAddress(address _blocklords) public /* onlyOwner */ {
         blocklords = _blocklords;
     }
   
