@@ -1,1 +1,4 @@
-# blocklords_2.0
+# BLOCKLORDS 2.0.
+
+Monorepo for BLOCKLORDS 2.0. WIP
+ 
