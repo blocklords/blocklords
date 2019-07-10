@@ -1,7 +1,10 @@
 pragma solidity ^0.5.0;
 
+import "./HeroToken.sol";
 
 contract HeroFactory {
+
+	HeroToken public heroToken;
 
     struct Hero{
         uint LEADERSHIP;   // Leadership Stat value

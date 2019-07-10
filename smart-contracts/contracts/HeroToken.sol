@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-// import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol";
 
@@ -10,11 +10,11 @@ import "openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol";
 * @notice Contract for ERC721 Hero token
 */
 
-contract HeroToken is ERC721Full, ERC721Mintable/*, Ownable*/ {
+contract HeroToken is ERC721Full, ERC721Mintable, Ownable {
 
     address public blocklords;
 
-    function setBlocklordsAddress(address _blocklords) public /* onlyOwner*/ {
+    function setBlocklordsAddress(address _blocklords) public onlyOwner {
         blocklords = _blocklords;
     }
   
