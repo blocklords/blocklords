@@ -2,7 +2,7 @@ pragma solidity ^0.5.0;
 
 // import "./common/Ownable.sol";
 // import "./MetadataStore.sol";
-import '../node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol';
+import "openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
 
 /**
 * @title HeroToken
@@ -18,7 +18,7 @@ contract HeroToken is ERC721Full/*, Ownable, MetadataStore*/ {
         blocklords = _blocklords;
     }
   
-	constructor() ERC721Full("HeroToken", "BLT") public { }
+	constructor() ERC721Full("HeroToken", "LORD") public { }
 
     /**
     * @dev calculates the next token ID based on totalSupply
