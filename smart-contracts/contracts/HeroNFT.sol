@@ -13,7 +13,7 @@ import "openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol";
 * @notice Contract for ERC721 Hero token
 */
 
-contract HeroToken is ERC721Full/*, Ownable, MetadataStore*/ {
+contract HeroToken is ERC721Full, ERC721Mintable/*, Ownable, MetadataStore*/ {
 
     address public blocklords;
 
