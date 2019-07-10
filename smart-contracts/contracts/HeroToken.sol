@@ -1,11 +1,8 @@
 pragma solidity ^0.5.0;
 
-// import "./common/Ownable.sol";
-// import "./MetadataStore.sol";
+// import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol";
-
-
 
 /**
 * @title HeroToken
@@ -13,21 +10,24 @@ import "openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol";
 * @notice Contract for ERC721 Hero token
 */
 
-contract HeroToken is ERC721Full, ERC721Mintable/*, Ownable, MetadataStore*/ {
+contract HeroToken is ERC721Full, ERC721Mintable/*, Ownable*/ {
 
     address public blocklords;
 
-    function setBlocklordsAddress(address _blocklords) public /* onlyOwner */ {
+    function setBlocklordsAddress(address _blocklords) public /* onlyOwner*/ {
         blocklords = _blocklords;
     }
   
-	constructor(string _name, string _symbol) ERC721Full(_name, _symbol) public { }
+	constructor(string memory _name, string memory _symbol) ERC721Full(_name, _symbol) public { }
 
     /**
     * @dev calculates the next token ID based on totalSupply
     * @return uint256 for the next token ID
     */
     function _getNextTokenId() private view returns (uint256) {
+        require(msg.sender == blocklords, // TODO: add signature check
+            "Only blocklords contract can initiate this transaction");
+
         return totalSupply().add(1); 
     }
 
@@ -45,5 +45,4 @@ contract HeroToken is ERC721Full, ERC721Mintable/*, Ownable, MetadataStore*/ {
 		_mint(_to, newTokenId);
 		return newTokenId;
 	}
-
 }

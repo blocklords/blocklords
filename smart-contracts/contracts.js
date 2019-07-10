@@ -53,8 +53,8 @@ module.exports = {
 
     contracts: {
       // example:
-      HeroNFT: {
-       args: [ "HeroNFT", "HERO" ]
+      HeroToken: {
+       args: [ "HeroToken", "HERO" ]
       }
     }
   },
