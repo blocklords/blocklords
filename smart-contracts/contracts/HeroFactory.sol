@@ -19,7 +19,7 @@ contract HeroFactory {
 
     function addHero(uint[] memory _heroStats/*, uint[] _heroItems*/) public payable returns(bool) {
         
-        _id = heroToken.mintTo(msg.sender); // NOTE: temporary solution!!
+        uint _id = heroToken.mintTo(msg.sender); // NOTE: temporary solution!!
         heroes[_id] = Hero( _heroStats[0], _heroStats[1],  _heroStats[2], _heroStats[3], _heroStats[4], block.number);
 
         return true;
