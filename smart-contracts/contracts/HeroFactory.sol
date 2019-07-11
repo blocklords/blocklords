@@ -22,7 +22,7 @@ contract HeroFactory {
 
     /**
     * @dev Adds a hero and mints a token 
-    * @param _to address of the future owner of the token
+    * @param heroStats hero attributes
     * @return uint256 for the token ID
     */
 
@@ -46,8 +46,15 @@ contract HeroFactory {
     * @return Hero a hero with the given id
     */
 
-    function getHero(uint id) public view returns(Hero){
-        return (heroes[id]);
+    function getHero(uint id) public view returns(uint,uint,uint,uint,uint,uint,uint){
+        return (heroes[id].GENERATION, 
+                heroes[id].LEADERSHIP, 
+                heroes[id].INTELLIGENCE,
+                heroes[id].STRENGTH,
+                heroes[id].SPEED,
+                heroes[id].DEFENSE,
+                heroes[id].CREATED_TIME
+                );
     }
 
 }
