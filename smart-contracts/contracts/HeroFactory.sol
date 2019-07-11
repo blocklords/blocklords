@@ -6,7 +6,10 @@ contract HeroFactory {
 
 	HeroToken public heroToken;
 
+
+
     struct Hero{
+        uint GENERATION;   // Hero generation
         uint LEADERSHIP;   // Leadership Stat value
         uint INTELLIGENCE; // Intelligence Stat value
         uint STRENGTH;     // Strength Stat value
@@ -17,16 +20,34 @@ contract HeroFactory {
 
     mapping (uint => Hero) heroes;
 
-    function addHero(uint[] memory _heroStats/*, uint[] _heroItems*/) public payable returns(bool) {
-        
-        uint _id = heroToken.mintTo(msg.sender); // NOTE: temporary solution!!
-        heroes[_id] = Hero( _heroStats[0], _heroStats[1],  _heroStats[2], _heroStats[3], _heroStats[4], block.number);
+    /**
+    * @dev Adds a hero and mints a token 
+    * @param _to address of the future owner of the token
+    * @return uint256 for the token ID
+    */
 
+    function addHero(uint[] memory heroStats/*, uint[] _heroItems*/) public payable returns(bool) {
+        
+        uint id = heroToken.mintTo(msg.sender); // NOTE: temporary solution!!
+        										// will add key check in the future
+        heroes[id] = Hero(  heroStats[0], 
+        					heroStats[1],  
+        					heroStats[2], 
+        					heroStats[3], 
+        					heroStats[4],
+                            heroStats[5], 
+        					block.number);
         return true;
     }
 
-    function getHero(uint id) public view returns(uint, uint, uint, uint, uint, uint){
-        return (heroes[id].LEADERSHIP, heroes[id].INTELLIGENCE, heroes[id].STRENGTH, heroes[id].SPEED, heroes[id].DEFENSE, heroes[id].CREATED_TIME);
+    /**
+    * @dev Returns a hero by id 
+    * @param id token/hero id
+    * @return Hero a hero with the given id
+    */
+
+    function getHero(uint id) public view returns(Hero){
+        return (heroes[id]);
     }
 
 }
