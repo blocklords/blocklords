@@ -25,8 +25,8 @@ contract HeroToken is ERC721Full, ERC721Mintable, Ownable {
     * @return uint256 for the next token ID
     */
     function _getNextTokenId() private view returns (uint256) {
-        require(msg.sender == blocklords, // TODO: add signature check
-            "Only blocklords contract can initiate this transaction");
+        // require(msg.sender == blocklords, // TODO: add signature check
+        //     "Only blocklords contract can initiate this transaction");
 
         return totalSupply().add(1); 
     }
@@ -38,11 +38,12 @@ contract HeroToken is ERC721Full, ERC721Mintable, Ownable {
     */
  
 	function mintTo(address _to) public returns(uint256){
-        require(msg.sender == blocklords, // TODO: add signature check
-            "Only blocklords contract can initiate this transaction");
+        // require(msg.sender == blocklords, // TODO: add signature check
+        //     "Only blocklords contract can initiate this transaction");
 
 		uint256 newTokenId = _getNextTokenId();
 		_mint(_to, newTokenId);
 		return newTokenId;
 	}
 }
+

@@ -1,4 +1,4 @@
-const SimpleStorage = require('Embark/contracts/HeroFactory');
+const HeroToken = require('Embark/contracts/HeroToken');
 
 let accounts;
 
@@ -11,7 +11,7 @@ config({
   //  ]
   //},
   contracts: {
-    "HeroFactory": {
+    "HeroToken": {
       args: ["Hero", "HERO"]
     }
   }
@@ -19,3 +19,15 @@ config({
   accounts = web3_accounts
 });
 
+contract("HeroToken", function () {
+
+  it("should set up blocklords address", async function () {
+    await HeroToken.methods.setBlocklordsAddress(accounts[0]).call();
+  });
+  
+  it("should mint a token", async function () {
+    await HeroToken.methods.mintTo(accounts[0]).call();
+  });
+
+})
+;
