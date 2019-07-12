@@ -1,8 +1,9 @@
 pragma solidity ^0.5.0;
 
 import "./HeroToken.sol";
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
-contract HeroFactory {
+contract HeroFactory is Ownable {
 
 	HeroToken public heroToken;
 
@@ -23,14 +24,14 @@ contract HeroFactory {
     mapping (uint => Hero) heroes;
 
     /**
-    * @dev Adds a hero and mints a token 
+    * @dev Adds a hero and mints a token
+    * @param receiver address which token is being minted to
     * @return uint256 for the token ID
     */
 
-    function addHero() public payable returns(bool) {
-        
-        uint id = heroToken.mintTo(msg.sender); // NOTE: temporary solution!!
-        										// will add key check in the future
+    function addHero(address receiver) public payable onlyOwner returns(bool) {
+                
+        uint id = heroToken.mintTo(receiver);					
         heroes[id] = Hero({
                             GENERATION: 0,
                             LEADERSHIP: 0,     
