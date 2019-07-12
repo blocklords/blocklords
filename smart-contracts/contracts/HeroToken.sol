@@ -11,12 +11,6 @@ import "openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol";
 */
 
 contract HeroToken is ERC721Full, ERC721Mintable, Ownable {
-
-    address public blocklords;
-
-    function setBlocklordsAddress(address _blocklords) public onlyOwner {
-        blocklords = _blocklords;
-    }
   
 	constructor(string memory _name, string memory _symbol) ERC721Full(_name, _symbol) public { }
 
@@ -24,7 +18,7 @@ contract HeroToken is ERC721Full, ERC721Mintable, Ownable {
     * @dev calculates the next token ID based on totalSupply
     * @return uint256 for the next token ID
     */
-    function _getNextTokenId() private view returns (uint256) {
+    function _getNextTokenId() private view onlyMinter returns (uint256) {
         return totalSupply().add(1); 
     }
 

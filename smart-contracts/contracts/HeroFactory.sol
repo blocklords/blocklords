@@ -11,6 +11,8 @@ contract HeroFactory is Ownable {
         heroToken = HeroToken(_heroToken);        
     }
 
+    event HeroCreated(uint indexed id, address receiver);
+
     struct Hero{
         uint GENERATION;   // Hero generation
         uint LEADERSHIP;   // Leadership Stat value
@@ -26,7 +28,7 @@ contract HeroFactory is Ownable {
     /**
     * @dev Adds a hero and mints a token
     * @param receiver address which token is being minted to
-    * @return uint256 for the token ID
+    * @return bool true if the hero was added succesfully
     */
 
     function addHero(address receiver) public payable onlyOwner returns(bool) {
@@ -41,11 +43,14 @@ contract HeroFactory is Ownable {
                             DEFENSE: 0,
                             CREATED_TIME: block.number                                         
                         });
+
+        emit HeroCreated(id, receiver);
+
         return true;
     }
 
     /**
-    * @dev Returns a hero by id 
+    * @dev Returns hero stats by id 
     * @param id token/hero id
     * @return Hero a hero with the given id
     */
