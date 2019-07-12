@@ -6,7 +6,9 @@ contract HeroFactory {
 
 	HeroToken public heroToken;
 
-
+    constructor(address _heroToken) public { 
+        heroToken = HeroToken(_heroToken);        
+    }
 
     struct Hero{
         uint GENERATION;   // Hero generation
@@ -22,21 +24,22 @@ contract HeroFactory {
 
     /**
     * @dev Adds a hero and mints a token 
-    * @param heroStats hero attributes
     * @return uint256 for the token ID
     */
 
-    function addHero(uint[] memory heroStats/*, uint[] _heroItems*/) public payable returns(bool) {
+    function addHero() public payable returns(bool) {
         
         uint id = heroToken.mintTo(msg.sender); // NOTE: temporary solution!!
         										// will add key check in the future
-        heroes[id] = Hero(  heroStats[0], 
-        					heroStats[1],  
-        					heroStats[2], 
-        					heroStats[3], 
-        					heroStats[4],
-                            heroStats[5], 
-        					block.number);
+        heroes[id] = Hero({
+                            GENERATION: 0,
+                            LEADERSHIP: 0,     
+                            INTELLIGENCE: 0,
+                            STRENGTH: 0,
+                            SPEED: 0,
+                            DEFENSE: 0,
+                            CREATED_TIME: block.number                                         
+                        });
         return true;
     }
 

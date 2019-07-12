@@ -55,6 +55,9 @@ module.exports = {
       // example:
       HeroToken: {
        args: [ "HeroToken", "HERO" ]
+      },
+      HeroFactory: {
+       args: ["$HeroToken"]
       }
     }
   },
