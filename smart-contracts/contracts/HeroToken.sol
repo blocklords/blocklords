@@ -42,7 +42,7 @@ contract HeroToken is ERC721Full, ERC721Mintable, Ownable {
         //     "Only blocklords contract can initiate this transaction");
 
 		uint256 newTokenId = _getNextTokenId();
-		_mint(_to, newTokenId);
+		mint(_to, newTokenId);
 		return newTokenId;
 	}
 }
