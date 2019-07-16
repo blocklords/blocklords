@@ -33,5 +33,16 @@ contract HeroToken is ERC721Full, ERC721Mintable, Ownable {
 		mint(_to, newTokenId);
 		return newTokenId;
 	}
+
+
+    /**
+     * @dev Returns whether the specified token exists.
+     * @param tokenId uint256 ID of the token to query the existence of
+     * @return bool whether the token exists
+     */
+    function exists(uint tokenId) public view returns(bool){
+        return _exists(tokenId);
+    }
+
 }
 

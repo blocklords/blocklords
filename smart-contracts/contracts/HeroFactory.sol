@@ -94,5 +94,24 @@ contract HeroFactory is Ownable {
                 );
     }
  
-    // TODO: ADD Update hero
+    /**
+    * @dev Updates one of the hero's stats 
+    * @param id token/hero id
+    * @param statNum number of the stat which you want to update
+    * @param newStat value of the updated stat
+    */
+
+    function updateStat(uint id, uint statNum, uint newStat) public onlyOwner {
+        require(heroToken.exists(id),
+                "Hero does not exist");
+        require(newStat < 5,
+                "Stats out of index");    
+        
+        if (statNum == 0) heroes[id].LEADERSHIP = newStat; 
+        else if (statNum == 1) heroes[id].INTELLIGENCE = newStat;
+        else if (statNum == 2) heroes[id].STRENGTH = newStat;
+        else if (statNum == 3) heroes[id].SPEED = newStat;
+        else if (statNum == 4) heroes[id].DEFENSE = newStat;
+    }
+
 }
