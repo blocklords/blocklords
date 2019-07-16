@@ -3,6 +3,12 @@ pragma solidity ^0.5.0;
 import "./HeroToken.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
+/**
+* @title HeroFactory
+* @author Arseny Kin
+* @notice Contract for Hero creation
+*/
+
 contract HeroFactory is Ownable {
 
 	HeroToken public heroToken;
@@ -13,14 +19,19 @@ contract HeroFactory is Ownable {
 
     event HeroCreated(uint indexed id, address receiver);
 
+    enum HeroAge {KID, YOUNG, MID, OLD}
+
     struct Hero{
-        uint GENERATION;   // Hero generation
-        uint LEADERSHIP;   // Leadership Stat value
-        uint INTELLIGENCE; // Intelligence Stat value
-        uint STRENGTH;     // Strength Stat value
-        uint SPEED;        // Speed Stat value
-        uint DEFENSE;      // Defense Stat value
-        uint CREATED_TIME;
+        uint    GENERATION;   // Hero generation
+        uint    FACE;         // Hero looks
+        uint    LEADERSHIP;   // Leadership Stat value
+        uint    INTELLIGENCE; // Intelligence Stat value
+        uint    STRENGTH;     // Strength Stat value
+        uint    SPEED;        // Speed Stat value
+        uint    DEFENSE;      // Defense Stat value
+        uint    CREATED_TIME;
+        HeroAge AGE;          // kid, young, mid, old
+        bool    ALIVE;        // indicates if the hero alive
     }
 
     mapping (uint => Hero) heroes;
@@ -36,12 +47,15 @@ contract HeroFactory is Ownable {
         uint id = heroToken.mintTo(receiver);					
         heroes[id] = Hero({
                             GENERATION: 0,
+                            FACE: 0,
                             LEADERSHIP: 0,     
                             INTELLIGENCE: 0,
                             STRENGTH: 0,
                             SPEED: 0,
                             DEFENSE: 0,
-                            CREATED_TIME: block.number                                         
+                            CREATED_TIME: block.number,
+                            AGE: HeroAge.YOUNG,
+                            ALIVE: true
                         });
 
         emit HeroCreated(id, receiver);
@@ -50,20 +64,35 @@ contract HeroFactory is Ownable {
     }
 
     /**
-    * @dev Returns hero stats by id 
+    * @dev Returns hero's basic information by id 
     * @param id token/hero id
     * @return Hero a hero with the given id
     */
 
-    function getHero(uint id) public view returns(uint,uint,uint,uint,uint,uint,uint){
+    function getHero(uint id) public view returns(uint,uint,uint,HeroAge, bool){
         return (heroes[id].GENERATION, 
-                heroes[id].LEADERSHIP, 
-                heroes[id].INTELLIGENCE,
-                heroes[id].STRENGTH,
-                heroes[id].SPEED,
-                heroes[id].DEFENSE,
-                heroes[id].CREATED_TIME
+                heroes[id].FACE, 
+                heroes[id].CREATED_TIME,
+                heroes[id].AGE,
+                heroes[id].ALIVE
                 );
     }
 
+
+    /**
+    * @dev Returns hero's stats by id 
+    * @param id token/hero id
+    * @return Hero a hero with the given id
+    */
+
+    function getHeroStats(uint id) public view returns(uint,uint,uint,uint,uint){
+        return (heroes[id].LEADERSHIP, 
+                heroes[id].INTELLIGENCE, 
+                heroes[id].STRENGTH,
+                heroes[id].SPEED,
+                heroes[id].DEFENSE
+                );
+    }
+ 
+    // TODO: ADD Update hero
 }
