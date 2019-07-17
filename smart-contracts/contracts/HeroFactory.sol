@@ -114,4 +114,17 @@ contract HeroFactory is Ownable {
         else if (statNum == 4) heroes[id].DEFENSE = newStat;
     }
 
+    // TODO:
+    function makeOlder(uint id) public onlyOwner {
+        require(heroToken.exists(id),
+                "Hero does not exist");
+        require(heroes[id].ALIVE,
+                "Hero is already dead");
+        if (heroes[id].AGE == HeroAge.KID) heroes[id].AGE = HeroAge.YOUNG;
+        else if (heroes[id].AGE == HeroAge.YOUNG) heroes[id].AGE = HeroAge.MID;  
+        else if (heroes[id].AGE == HeroAge.MID) heroes[id].AGE = HeroAge.OLD;
+    }
+
+    // function killHero() onlyOwner {}
+
 }
