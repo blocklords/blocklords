@@ -42,19 +42,26 @@ contract HeroFactory is Ownable {
     * @return bool true if the hero was added succesfully
     */
 
-    function addHero(address receiver) public payable onlyOwner returns(bool) {
-                
+    function addHero(address receiver, uint[8] memory stats) public payable onlyOwner returns(bool) {
+
+        HeroAge age;
+
+        if (stats[7] == 0) age = HeroAge.KID;
+        else if (stats[7] == 1) age = HeroAge.YOUNG;
+        else if (stats[7] == 2) age = HeroAge.MID;  
+        else if (stats[7] == 3) age = HeroAge.OLD;
+                 
         uint id = heroToken.mintTo(receiver);					
         heroes[id] = Hero({
-                            GENERATION: 0,
-                            FACE: 0,
-                            LEADERSHIP: 0,     
-                            INTELLIGENCE: 0,
-                            STRENGTH: 0,
-                            SPEED: 0,
-                            DEFENSE: 0,
+                            GENERATION: stats[0],
+                            FACE: stats[1],
+                            LEADERSHIP: stats[2],     
+                            INTELLIGENCE: stats[3],
+                            STRENGTH: stats[4],
+                            SPEED: stats[5],
+                            DEFENSE: stats[6],
                             CREATED_TIME: block.number,
-                            AGE: HeroAge.YOUNG,
+                            AGE: age,
                             ALIVE: true
                         });
 
@@ -93,26 +100,6 @@ contract HeroFactory is Ownable {
                 heroes[id].DEFENSE
                 );
     }
- 
-    /**
-    * @dev Updates one of the hero's stats 
-    * @param id token/hero id
-    * @param statNum number of the stat which you want to update
-    * @param newStat value of the updated stat
-    */
-
-    function updateStat(uint id, uint statNum, uint newStat) public onlyOwner {
-        require(heroToken.exists(id),
-                "Hero does not exist");
-        require(newStat < 5,
-                "Stats out of index");    
-        
-        if (statNum == 0) heroes[id].LEADERSHIP = newStat; 
-        else if (statNum == 1) heroes[id].INTELLIGENCE = newStat;
-        else if (statNum == 2) heroes[id].STRENGTH = newStat;
-        else if (statNum == 3) heroes[id].SPEED = newStat;
-        else if (statNum == 4) heroes[id].DEFENSE = newStat;
-    }
 
     /**
     * @dev Makes hero older 
@@ -134,7 +121,7 @@ contract HeroFactory is Ownable {
     */    
     function killHero(uint id) public onlyOwner {
         require(heroToken.exists(id),
-        "Hero does not exist");
+                "Hero does not exist");
         require(heroes[id].ALIVE,
                 "Hero is already dead");
         heroes[id].ALIVE = false;
