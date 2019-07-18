@@ -18,6 +18,8 @@ contract HeroFactory is Ownable {
     }
 
     event HeroCreated(uint indexed id, address receiver);
+    event HeroMadeOlder(uint indexed id);
+    event HeroDied(uint indexed id);
 
     enum HeroAge {KID, YOUNG, MID, OLD}
 
@@ -113,6 +115,8 @@ contract HeroFactory is Ownable {
         if (heroes[id].AGE == HeroAge.KID) heroes[id].AGE = HeroAge.YOUNG;
         else if (heroes[id].AGE == HeroAge.YOUNG) heroes[id].AGE = HeroAge.MID;  
         else if (heroes[id].AGE == HeroAge.MID) heroes[id].AGE = HeroAge.OLD;
+        
+        emit HeroMadeOlder(id);
     }
 
     /**
@@ -125,6 +129,8 @@ contract HeroFactory is Ownable {
         require(heroes[id].ALIVE,
                 "Hero is already dead");
         heroes[id].ALIVE = false;
+    
+        emit HeroDied(id);
     }
 
 }
