@@ -22,6 +22,7 @@ contract ItemFactory is Ownable {
 	event ItemLevelUp(uint indexed id, uint newLevel);
 	event ItemXpGained(uint indexed id, uint newXpAmount);
 	event ItemBurned(uint indexed id);
+	event ItemOwnerChanged(uint indexed id, uint newOwner);
 
 	struct Item{
 
@@ -102,8 +103,6 @@ contract ItemFactory is Ownable {
     	return items[id].OWNER !=0 && items[id].STAT_VALUE != 0 && items[id].BURNED == false;
     }
 
-    // TODO: add change owner
-
     /**
     * @dev Updates item stat value
     * @param id item id
@@ -159,5 +158,18 @@ contract ItemFactory is Ownable {
     
 		emit ItemBurned(id);
     }
+
+    /**
+    * @dev Changes owner
+    * @param id item id
+    */
+    function changeItemOwner(uint id, uint newOwner) public onlyOwner{
+		require(itemExists(id),
+	    			"Item does not exist" );
+		items[id].OWNER = newOwner;
+
+		emit ItemOwnerChanged(id, newOwner);
+    }
+
 
 }
