@@ -44,26 +44,35 @@ contract HeroFactory is Ownable {
     * @return bool true if the hero was added succesfully
     */
 
-    function addHero(address receiver, uint[8] memory stats) public payable onlyOwner returns(bool) {
+    function addHero(address receiver, 
+                     uint generation,
+                     uint face,
+                     uint leadership,
+                     uint intelligence,
+                     uint strength,
+                     uint speed,
+                     uint defense,
+                     uint age
+                     ) public payable onlyOwner returns(bool) {
 
-        HeroAge age;
+        HeroAge _age;
 
-        if (stats[7] == 0) age = HeroAge.KID;
-        else if (stats[7] == 1) age = HeroAge.YOUNG;
-        else if (stats[7] == 2) age = HeroAge.MID;  
-        else if (stats[7] == 3) age = HeroAge.OLD;
+        if (age == 0) _age = HeroAge.KID;
+        else if (age == 1) _age = HeroAge.YOUNG;
+        else if (age == 2) _age = HeroAge.MID;  
+        else if (age == 3) _age = HeroAge.OLD;
                  
         uint id = heroToken.mintTo(receiver);					
         heroes[id] = Hero({
-                            GENERATION: stats[0],
-                            FACE: stats[1],
-                            LEADERSHIP: stats[2],     
-                            INTELLIGENCE: stats[3],
-                            STRENGTH: stats[4],
-                            SPEED: stats[5],
-                            DEFENSE: stats[6],
+                            GENERATION: generation,
+                            FACE: face,
+                            LEADERSHIP: leadership,     
+                            INTELLIGENCE: intelligence,
+                            STRENGTH: strength,
+                            SPEED: speed,
+                            DEFENSE: defense,
                             CREATED_TIME: block.number,
-                            AGE: age,
+                            AGE: _age,
                             ALIVE: true
                         });
 
@@ -132,7 +141,5 @@ contract HeroFactory is Ownable {
     
         emit HeroDied(id);
     }
-
-    // TODO: add inheritance
 
 }

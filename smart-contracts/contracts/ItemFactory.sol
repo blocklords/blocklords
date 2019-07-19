@@ -19,21 +19,26 @@ contract ItemFactory is Ownable {
 
 	struct Item{
 
-        uint OWNER;   // ID of a hero that ownes an item
-        uint STAT_TYPE; // Item can increase only one stat of Hero, there are five: Leadership, Defense, Speed, Strength and Intelligence
-        uint QUALITY; // Item can be in different Quality. Used in Gameplay.
-
-        uint GENERATION; // Items are given to Players only as a reward for holding Strongholds on map, or when players create a hero.
-                         // Items are given from a list of items batches. Item batches are putted on Blockchain at once by Game Owner.
-                         // Each of Item batches is called as a generation.
-
+        uint OWNER;      
+        uint STAT_TYPE;  
+        uint QUALITY;    
+        uint GENERATION; 
         uint STAT_VALUE;
         uint LEVEL;
         uint XP;         // Each battle where, Item was used by Hero, increases Experience (XP). Experiences increases Level. Level increases Stat value of Item
     }
 
-    uint[] itemIds; // a list of item ids
+    uint[] itemIds = [0]; // a list of item ids, item ids start from 1
     mapping (uint => Item) public items;
+
+    /**
+    * @dev Creates an item
+    * @param heroId id of a hero owner- ERC721 id
+    * @param statType Item can increase only one stat of Hero, there are five: Leadership, Defense, Speed, Strength and Intelligence
+	* @param quality Item can be in different Quality. Used in Gameplay.
+	* @param generation generation of an item
+	* @param statValue value of a stat improvement for the item
+    */
 
     function addItem(uint heroId,
     				 uint statType,
@@ -57,4 +62,7 @@ contract ItemFactory is Ownable {
                     });
     }
 
+    function totalItems() public view returns(uint){
+    	return itemIds.length-1; // kill 0 element
+    }
 }
