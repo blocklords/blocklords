@@ -17,7 +17,11 @@ contract ItemFactory is Ownable {
         heroToken = HeroToken(_heroToken);        
     }
 
-    // TODO: add events
+	event ItemCreated(uint indexed id);
+	event ItemStatUpgraded(uint indexed id, uint newValue);
+	event ItemLevelUp(uint indexed id, uint newLevel);
+	event ItemXpGained(uint indexed id, uint newXpAmount);
+	event ItemBurned(uint indexed id);
 
 	struct Item{
 
@@ -63,6 +67,7 @@ contract ItemFactory is Ownable {
                         XP: 0,
                         BURNED: false
                     });
+        emit ItemCreated(id);
     }
 
     /**
@@ -76,7 +81,7 @@ contract ItemFactory is Ownable {
     * @dev checks if the item is upgradable
     * @param id item id 
     */
-    function isUpgradableItem(uint id) private view returns (bool){
+    function isUpgradable(uint id) private view returns (bool){
       if (id == 0) return false;
       if (items[id].STAT_VALUE == 0) return false;
 
@@ -94,8 +99,10 @@ contract ItemFactory is Ownable {
     * @param id item id
     */
     function itemExists(uint id) public view returns(bool){
-    	return items[id].OWNER !=0 && items[id].STAT_VALUE != 0;
+    	return items[id].OWNER !=0 && items[id].STAT_VALUE != 0 && items[id].BURNED == false;
     }
+
+    // TODO: add change owner
 
     /**
     * @dev Updates item stat value
@@ -103,11 +110,13 @@ contract ItemFactory is Ownable {
     * @param newValue new stat value
     */
     function upgradeItemStatValue(uint id, uint newValue) public onlyOwner{
-    	require(isUpgradableItem(id),
+    	require(isUpgradable(id),
     			"This item is not upgradable");
     	require(itemExists(id),
     			"Item does not exist" );
     	items[id].STAT_VALUE = newValue;
+    	
+    	emit ItemStatUpgraded(id,newValue);
     }
 
     /**
@@ -116,11 +125,13 @@ contract ItemFactory is Ownable {
     * @param newXp new xp value
     */
     function addItemXp(uint id, uint newXp) public onlyOwner{
-    	require(isUpgradableItem(id),
+    	require(isUpgradable(id),
     			"This item is not upgradable");
     	require(itemExists(id),
     			"Item does not exist" );
     	items[id].XP = newXp;
+
+    	emit ItemXpGained(id, newXp);
     }
 
     /**
@@ -128,11 +139,25 @@ contract ItemFactory is Ownable {
     * @param id item id
     */
     function addItemLvl(uint id) public onlyOwner{
-    	require(isUpgradableItem(id),
+    	require(isUpgradable(id),
     			"This item is not upgradable");
     	require(itemExists(id),
     			"Item does not exist" );
     	items[id].LEVEL += 1;
+    	
+    	emit ItemLevelUp(id, items[id].LEVEL);
+    }
+
+    /**
+    * @dev Burns item
+    * @param id item id
+    */
+    function burnItem(uint id) public onlyOwner{
+		require(itemExists(id),
+	    			"Item does not exist" );
+		items[id].BURNED = true;
+    
+		emit ItemBurned(id);
     }
 
 }
