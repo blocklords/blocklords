@@ -32,18 +32,22 @@ contract ItemFactory is Ownable {
         uint XP;         // Each battle where, Item was used by Hero, increases Experience (XP). Experiences increases Level. Level increases Stat value of Item
     }
 
+    uint[] itemIds; // a list of item ids
     mapping (uint => Item) public items;
 
-    function addItem(uint id,
+    function addItem(uint heroId,
     				 uint statType,
       				 uint quality,
       				 uint generation,
       				 uint statValue) public onlyOwner {
-        require(heroToken.exists(id),
+        require(heroToken.exists(heroId),
                 "Hero does not exist");
 
+        uint id = itemIds.length;
+		itemIds.push(id);        
+
         items[id] = Item({
-                        OWNER: id,
+                        OWNER: heroId,
                         STAT_TYPE: statType,
                         QUALITY: quality,     
                         GENERATION: generation,
