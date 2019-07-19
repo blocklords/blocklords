@@ -11,6 +11,12 @@ import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract ItemFactory is Ownable {
 
+	HeroToken public heroToken;
+
+    constructor(address _heroToken) public { 
+        heroToken = HeroToken(_heroToken);        
+    }
+
 	struct Item{
 
         uint OWNER;   // ID of a hero that ownes an item
@@ -33,6 +39,8 @@ contract ItemFactory is Ownable {
       				 uint quality,
       				 uint generation,
       				 uint statValue) public onlyOwner {
+        require(heroToken.exists(id),
+                "Hero does not exist");
 
         items[id] = Item({
                         OWNER: id,

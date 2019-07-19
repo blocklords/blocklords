@@ -58,7 +58,11 @@ module.exports = {
       },
       HeroFactory: {
        args: ["$HeroToken"]
+      },
+      ItemFactory: {
+       args: ["$HeroToken"]
       }
+
     }
   },
 
