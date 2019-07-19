@@ -133,4 +133,6 @@ contract HeroFactory is Ownable {
         emit HeroDied(id);
     }
 
+    // TODO: add inheritance
+
 }
