@@ -17,6 +17,8 @@ contract ItemFactory is Ownable {
         heroToken = HeroToken(_heroToken);        
     }
 
+    // TODO: add events
+
 	struct Item{
 
         uint OWNER;      
@@ -26,6 +28,7 @@ contract ItemFactory is Ownable {
         uint STAT_VALUE;
         uint LEVEL;
         uint XP;         // Each battle where, Item was used by Hero, increases Experience (XP). Experiences increases Level. Level increases Stat value of Item
+        bool BURNED;
     }
 
     uint[] itemIds = [0]; // a list of item ids, item ids start from 1
@@ -39,7 +42,6 @@ contract ItemFactory is Ownable {
 	* @param generation generation of an item
 	* @param statValue value of a stat improvement for the item
     */
-
     function addItem(uint heroId,
     				 uint statType,
       				 uint quality,
@@ -58,11 +60,79 @@ contract ItemFactory is Ownable {
                         GENERATION: generation,
                         STAT_VALUE: statValue,
                         LEVEL: 0,
-                        XP: 0
+                        XP: 0,
+                        BURNED: false
                     });
     }
 
+    /**
+    * @dev Returns a number of total items
+    */
     function totalItems() public view returns(uint){
     	return itemIds.length-1; // kill 0 element
     }
+
+    /**
+    * @dev checks if the item is upgradable
+    * @param id item id 
+    */
+    function isUpgradableItem(uint id) private view returns (bool){
+      if (id == 0) return false;
+      if (items[id].STAT_VALUE == 0) return false;
+
+      if (items[id].QUALITY == 1 && items[id].LEVEL == 3) return false;
+      if (items[id].QUALITY == 2 && items[id].LEVEL == 5) return false;
+      if (items[id].QUALITY == 3 && items[id].LEVEL == 7) return false;
+      if (items[id].QUALITY == 4 && items[id].LEVEL == 9) return false;
+      if (items[id].QUALITY == 5 && items[id].LEVEL == 10) return false;
+
+      return true;
+    }
+
+    /**
+    * @dev Checks if the item exists
+    * @param id item id
+    */
+    function itemExists(uint id) public view returns(bool){
+    	return items[id].OWNER !=0 && items[id].STAT_VALUE != 0;
+    }
+
+    /**
+    * @dev Updates item stat value
+    * @param id item id
+    * @param newValue new stat value
+    */
+    function upgradeItemStatValue(uint id, uint newValue) public onlyOwner{
+    	require(isUpgradableItem(id),
+    			"This item is not upgradable");
+    	require(itemExists(id),
+    			"Item does not exist" );
+    	items[id].STAT_VALUE = newValue;
+    }
+
+    /**
+    * @dev Updates item xp
+    * @param id item id
+    * @param newXp new xp value
+    */
+    function addItemXp(uint id, uint newXp) public onlyOwner{
+    	require(isUpgradableItem(id),
+    			"This item is not upgradable");
+    	require(itemExists(id),
+    			"Item does not exist" );
+    	items[id].XP = newXp;
+    }
+
+    /**
+    * @dev Increments item level by one
+    * @param id item id
+    */
+    function addItemLvl(uint id) public onlyOwner{
+    	require(isUpgradableItem(id),
+    			"This item is not upgradable");
+    	require(itemExists(id),
+    			"Item does not exist" );
+    	items[id].LEVEL += 1;
+    }
+
 }
