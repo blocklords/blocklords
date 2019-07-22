@@ -44,7 +44,7 @@ contract HeroFactory is Ownable {
     * @return bool true if the hero was added succesfully
     */
 
-    function addHero(address receiver, 
+    function createHero(address receiver, 
                      uint generation,
                      uint face,
                      uint leadership,
@@ -87,7 +87,7 @@ contract HeroFactory is Ownable {
     * @return Hero a hero with the given id
     */
 
-    function getHero(uint id) public view returns(uint,uint,uint,HeroAge, bool){
+    function getHeroInfo(uint id) public view returns(uint,uint,uint,HeroAge, bool){
         return (heroes[id].GENERATION, 
                 heroes[id].FACE, 
                 heroes[id].CREATED_TIME,

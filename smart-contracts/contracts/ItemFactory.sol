@@ -32,11 +32,11 @@ contract ItemFactory is Ownable {
         uint GENERATION; 
         uint STAT_VALUE;
         uint LEVEL;
-        uint XP;         // Each battle where, Item was used by Hero, increases Experience (XP). Experiences increases Level. Level increases Stat value of Item
+        uint XP;        
         bool BURNED;
     }
 
-    uint[] itemIds = [0]; // a list of item ids, item ids start from 1
+    uint[] itemIds; 
     mapping (uint => Item) public items;
 
     /**
@@ -47,7 +47,7 @@ contract ItemFactory is Ownable {
 	* @param generation generation of an item
 	* @param statValue value of a stat improvement for the item
     */
-    function addItem(uint heroId,
+    function createItem(uint heroId,
     				 uint statType,
       				 uint quality,
       				 uint generation,
@@ -55,7 +55,7 @@ contract ItemFactory is Ownable {
         require(heroToken.exists(heroId),
                 "Hero does not exist");
 
-        uint id = itemIds.length;
+        uint id = itemIds.length+1;
 		itemIds.push(id);        
 
         items[id] = Item({
@@ -75,7 +75,7 @@ contract ItemFactory is Ownable {
     * @dev Returns a number of total items
     */
     function totalItems() public view returns(uint){
-    	return itemIds.length-1; // kill 0 element
+    	return itemIds.length;
     }
 
     /**
@@ -123,7 +123,7 @@ contract ItemFactory is Ownable {
     * @param id item id
     * @param newXp new xp value
     */
-    function addItemXp(uint id, uint newXp) public onlyOwner{
+    function updateItemXp(uint id, uint newXp) public onlyOwner{
     	require(isUpgradable(id),
     			"This item is not upgradable");
     	require(itemExists(id),
@@ -137,7 +137,7 @@ contract ItemFactory is Ownable {
     * @dev Increments item level by one
     * @param id item id
     */
-    function addItemLvl(uint id) public onlyOwner{
+    function incrementItemLvl(uint id) public onlyOwner{
     	require(isUpgradable(id),
     			"This item is not upgradable");
     	require(itemExists(id),
@@ -170,6 +170,4 @@ contract ItemFactory is Ownable {
 
 		emit ItemOwnerChanged(id, newOwner);
     }
-
-
 }
