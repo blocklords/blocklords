@@ -16,12 +16,17 @@ config({
   accounts = web3_accounts
 });
 
-// contract("HeroFactory", function () {
+contract("HeroFactory", function () {
 
-//   it("should create a hero", async function () {
-//     await HeroToken.methods.addMinter(HeroFactory.address).send();
-//     await HeroFactory.methods.addHero().send();
-//   });
+  it('should pass', () => {
+    assert.ok(true);
+  });
 
-// })
+
+  // it("should create a hero", async function () {
+  //   await HeroToken.methods.addMinter(HeroFactory.address).send();
+  //   await HeroFactory.methods.addHero().send();
+  // });
+
+})
 ;
