@@ -1,5 +1,6 @@
 const HeroToken = require('Embark/contracts/HeroToken');
 const ItemFactory = require('Embark/contracts/ItemFactory');
+const HeroFactory = require('Embark/contracts/HeroFactory');
 
 let accounts;
 
@@ -9,6 +10,9 @@ config({
       args: ["Hero", "HERO"]
     },
     "ItemFactory": {
+      args: ["$HeroToken"]
+    },
+    "HeroFactory": {
       args: ["$HeroToken"]
     }
   }
@@ -22,10 +26,8 @@ contract("HeroFactory", function () {
     assert.ok(true);
   });
 
+  // it("should create an item", async function () {
 
-  // it("should create a hero", async function () {
-  //   await HeroToken.methods.addMinter(HeroFactory.address).send();
-  //   await HeroFactory.methods.addHero().send();
   // });
 
 })

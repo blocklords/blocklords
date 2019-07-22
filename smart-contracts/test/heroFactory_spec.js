@@ -18,14 +18,14 @@ config({
 
 contract("HeroFactory", function () {
 
-  it('should pass', () => {
-    assert.ok(true);
-  });
+  it("should create a hero", async function () {
+  	await HeroToken.methods.addMinter(HeroFactory.address).send();
+    
+    let hero = await HeroFactory.methods.createHero(HeroFactory.address, 1, 2, 3, 4, 5, 6, 7, 8).send();
+    let id = hero.events.HeroCreated.returnValues.id;
 
-  // it("should create a hero", async function () {
-  // 	await HeroToken.methods.addMinter(HeroFactory.address).send();
-  //   await HeroFactory.methods.addHero().send();
-  // });
+    
+  });
 
 })
 ;
