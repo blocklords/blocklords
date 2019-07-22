@@ -18,14 +18,47 @@ config({
 
 contract("HeroFactory", function () {
 
+  before(async() => {
+
+    await HeroToken.methods.addMinter(HeroFactory.address).send();
+
+  } );
+
   it("should create a hero", async function () {
-  	await HeroToken.methods.addMinter(HeroFactory.address).send();
-    
+
     let hero = await HeroFactory.methods.createHero(HeroFactory.address, 1, 2, 3, 4, 5, 6, 7, 8).send();
     let id = hero.events.HeroCreated.returnValues.id;
 
+    assert.strictEqual('1', id);
+  });
+
+
+  it("should not allow to create a hero", async function () {
+
+    try {
+      let hero = await HeroFactory.methods.createHero(HeroFactory.address, 1, 2, 3, 4, 5, 6, 7, 8).send({from: accounts[2]});
+      assert.fail('should have reverted before');
+    }
+    catch (error) {
+      assert.strictEqual(error.message, "VM Exception while processing transaction: revert Ownable: caller is not the owner");
+    }
+
+  });
+
+  it("should get hero info", async function () {
+
+    let heroInfo = await HeroFactory.methods.getHeroInfo('1').call();
+    assert.strictEqual('1', id);   
+
+  });
+
+  it("should make hero older", async function () {
+
+    let heroInfo = await HeroFactory.methods.getHeroInfo('1').call();
+    assert.strictEqual('1', id);   
     
   });
+
 
 })
 ;
