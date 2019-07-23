@@ -38,7 +38,7 @@ contract("ItemFactory", function () {
     catch (error) {
       assert.strictEqual(error.message, "VM Exception while processing transaction: revert Hero id should be greater than 0");
     }
-    
+
   });
 
 
@@ -55,6 +55,15 @@ contract("ItemFactory", function () {
     let exists = await ItemFactory.methods.itemExists('1').call();
     assert.strictEqual(true, exists);
   
+  });
+
+  it("should upgrade item value", async function () {
+
+    await ItemFactory.methods.upgradeItemStatValue('1', '8').send();
+    let stats = await ItemFactory.methods.getItemStat('1').call();
+
+    assert.strictEqual('8', stats[3]);
+
   });
 
 
