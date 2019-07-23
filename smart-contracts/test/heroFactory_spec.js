@@ -55,9 +55,42 @@ contract("HeroFactory", function () {
   it("should make hero older", async function () {
 
     await HeroFactory.methods.makeOlder('1').send();
-    let hero = await HeroFactory.methods.getHeroInfo('1').call();
+    hero = await HeroFactory.methods.getHeroInfo('1').call();
 
     assert.strictEqual('1', hero[3]);   
+  });
+
+  it("should not allow to make hero older", async function () {
+
+    await HeroFactory.methods.makeOlder('1').send();
+    await HeroFactory.methods.makeOlder('1').send();
+
+    try {
+      await HeroFactory.methods.makeOlder('1').send();
+    }
+    catch (error) {
+      assert.strictEqual(error.message, "VM Exception while processing transaction: revert Hero is already old");
+    }
+
+  });
+
+  it("should kill a hero", async function () {
+
+    await HeroFactory.methods.killHero('1').send();
+    hero = await HeroFactory.methods.getHeroInfo('1').call();
+
+    assert.strictEqual(false, hero[4]);   
+  });
+
+  it("should not allow to kill a hero", async function () {
+
+    try {
+      await HeroFactory.methods.killHero('1').send();
+    }
+    catch (error) {
+      assert.strictEqual(error.message, "VM Exception while processing transaction: revert Hero is already dead");
+    }
+
   });
 
 })
