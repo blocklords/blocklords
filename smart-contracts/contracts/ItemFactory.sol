@@ -52,6 +52,9 @@ contract ItemFactory is Ownable {
       				 uint quality,
       				 uint generation,
       				 uint statValue) public onlyOwner {
+        require(heroId > 0,
+                "Hero id should be greater than 0");
+
         require(heroToken.exists(heroId),
                 "Hero does not exist");
 

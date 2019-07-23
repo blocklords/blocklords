@@ -30,14 +30,33 @@ contract("ItemFactory", function () {
 
   } );
 
+  it("should not allow to create an item for a hero with 0 id", async function () {
+
+    try {
+      await ItemFactory.methods.createItem(0, 3, 3, 2, 1).send();
+    }
+    catch (error) {
+      assert.strictEqual(error.message, "VM Exception while processing transaction: revert Hero id should be greater than 0");
+    }
+    
+  });
+
+
   it("should create an item", async function () {
 
     await ItemFactory.methods.createItem(1, 3, 3, 2, 1).send();
-
     let totalItems = await ItemFactory.methods.totalItems().call();
-
     assert.strictEqual('1', totalItems);
+
   });
+
+  it("should check if item exists", async function () {
+
+    let exists = await ItemFactory.methods.itemExists('1').call();
+    assert.strictEqual(true, exists);
+  
+  });
+
 
 })
 ;

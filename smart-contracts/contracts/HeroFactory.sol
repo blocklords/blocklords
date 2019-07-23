@@ -54,6 +54,8 @@ contract HeroFactory is Ownable {
                      uint defense,
                      uint age
                      ) public payable onlyOwner returns(bool) {
+        require(age<4, 
+                "Age should be lower that 4");
 
         HeroAge _age;
 
@@ -121,6 +123,8 @@ contract HeroFactory is Ownable {
                 "Hero does not exist");
         require(heroes[id].ALIVE,
                 "Hero is already dead");
+        require(heroes[id].AGE != HeroAge.OLD,
+                "Hero is already old");
         if (heroes[id].AGE == HeroAge.KID) heroes[id].AGE = HeroAge.YOUNG;
         else if (heroes[id].AGE == HeroAge.YOUNG) heroes[id].AGE = HeroAge.MID;  
         else if (heroes[id].AGE == HeroAge.MID) heroes[id].AGE = HeroAge.OLD;
