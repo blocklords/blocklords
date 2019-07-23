@@ -20,15 +20,24 @@ config({
   accounts = web3_accounts
 });
 
-contract("HeroFactory", function () {
+contract("ItemFactory", function () {
 
-  it('should pass', () => {
-    assert.ok(true);
+  before(async() => {
+
+    await HeroToken.methods.addMinter(HeroFactory.address).send();
+    await HeroFactory.methods.createHero(HeroFactory.address, 1, 2, 3, 4, 5, 6, 7, 0).send();
+
+
+  } );
+
+  it("should create an item", async function () {
+
+    await ItemFactory.methods.createItem(1, 3, 3, 2, 1).send();
+
+    let totalItems = await ItemFactory.methods.totalItems().call();
+
+    assert.strictEqual('1', totalItems);
   });
-
-  // it("should create an item", async function () {
-
-  // });
 
 })
 ;
