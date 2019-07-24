@@ -25,9 +25,10 @@ contract("ItemFactory", function () {
   before(async() => {
 
     await HeroToken.methods.addMinter(HeroFactory.address).send();
+    // create hero 1
     await HeroFactory.methods.createHero(HeroFactory.address, 1, 2, 3, 4, 5, 6, 7, 0).send();
-
-
+    // create hero 2
+    await HeroFactory.methods.createHero(HeroFactory.address, 1, 2, 3, 4, 5, 6, 7, 0).send();
   } );
 
   it("should not allow to create an item for a hero with 0 id", async function () {
@@ -98,6 +99,54 @@ contract("ItemFactory", function () {
     }
     catch (error) {
       assert.strictEqual(error.message, "VM Exception while processing transaction: revert This item is not upgradable");
+    }
+
+  });
+
+  it("should upgrade item XP", async function () {
+
+    await ItemFactory.methods.createItem(1, 1, 1, 1, 1).send();
+    
+    await ItemFactory.methods.updateItemXp('3', 20).send();
+    stats = await ItemFactory.methods.getItemInfo('3').call();
+
+    assert.strictEqual('20', stats[5]);
+  });
+
+  it("should burn the item", async function () {
+
+    await ItemFactory.methods.burnItem('3').send();
+
+    exists = await ItemFactory.methods.itemExists('3').call();
+    assert.strictEqual(false, exists);
+  });
+
+  it("should not allow to burn the item", async function () {
+
+    try {
+      await ItemFactory.methods.burnItem('3').send();  
+    }
+    catch (error) {
+      assert.strictEqual(error.message, "VM Exception while processing transaction: revert Item does not exist");
+    }
+
+  });
+
+  it("should transfer item to another hero", async function () {
+
+    await ItemFactory.methods.changeItemOwner('1', '2').send();
+
+    let owner = await ItemFactory.methods.getItemOwner('1').call();
+    assert.strictEqual('2', owner);
+  });
+
+  it("should not allow to transfer item to the same hero", async function () {
+
+    try {
+      await ItemFactory.methods.changeItemOwner('1', '2').send();
+    }
+    catch (error) {
+      assert.strictEqual(error.message, "VM Exception while processing transaction: revert Hero already ownes this item");
     }
     
   });

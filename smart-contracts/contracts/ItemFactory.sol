@@ -188,10 +188,13 @@ contract ItemFactory is Ownable {
     /**
     * @dev Changes owner
     * @param id item id
+    * @param newOwner id of a new owner
     */
     function changeItemOwner(uint id, uint newOwner) public onlyOwner{
 		require(itemExists(id),
 	    			"Item does not exist" );
+		require(items[id].OWNER != newOwner,
+	    			"Hero already ownes this item" );
 		items[id].OWNER = newOwner;
 
 		emit ItemOwnerChanged(id, newOwner);
