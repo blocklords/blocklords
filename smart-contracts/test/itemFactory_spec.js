@@ -60,11 +60,13 @@ contract("ItemFactory", function () {
   it("should upgrade item value", async function () {
 
     await ItemFactory.methods.upgradeItemStatValue('1', '8').send();
-    let stats = await ItemFactory.methods.getItemStat('1').call();
+    let stats = await ItemFactory.methods.getItemInfo('1').call();
 
     assert.strictEqual('8', stats[3]);
 
   });
+
+
 
 
 })

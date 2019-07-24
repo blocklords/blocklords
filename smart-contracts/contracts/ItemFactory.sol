@@ -107,27 +107,25 @@ contract ItemFactory is Ownable {
     }
 
     /**
-    * @dev Returns item stats value
+    * @dev Returns owner of an item
     * @param id item id
     */
-    function getItem(uint id) public view returns(uint, bool){
-		return(items[id].OWNER,
-			   items[id].BURNED
-			);    	
+    function getItemOwner(uint id) public view returns(uint){
+		return items[id].OWNER;    	
     }
 
-
     /**
-    * @dev Returns item stats value
+    * @dev Returns information related to item
     * @param id item id
     */
-    function getItemStat(uint id) public view returns(uint, uint, uint, uint, uint, uint){
-		return(items[id].STAT_TYPE,
+    function getItemInfo(uint id) public view returns(uint, uint, uint, uint, uint, uint, bool){
+		return(items[id].GENERATION,
 			   items[id].QUALITY,
-			   items[id].GENERATION,
+			   items[id].STAT_TYPE,
 			   items[id].STAT_VALUE,
 			   items[id].LEVEL,
-			   items[id].XP
+			   items[id].XP,			   
+			   items[id].BURNED
 			);    	
     }
 
