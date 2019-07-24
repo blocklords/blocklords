@@ -44,7 +44,7 @@ contract("ItemFactory", function () {
 
   it("should create an item", async function () {
 
-    await ItemFactory.methods.createItem(1, 3, 3, 2, 1).send();
+    await ItemFactory.methods.createItem(1, 1, 1, 1, 1).send();
     let totalItems = await ItemFactory.methods.totalItems().call();
     assert.strictEqual('1', totalItems);
 
@@ -57,7 +57,7 @@ contract("ItemFactory", function () {
   
   });
 
-  it("should upgrade item value", async function () {
+  it("should upgrade item stat value", async function () {
 
     await ItemFactory.methods.upgradeItemStatValue('1', '8').send();
     let stats = await ItemFactory.methods.getItemInfo('1').call();
@@ -67,6 +67,40 @@ contract("ItemFactory", function () {
   });
 
 
+  it("should not allow to upgrade item stat value", async function () {
+
+    await ItemFactory.methods.createItem(1, 1, 1, 1, 0).send();
+
+    try {
+        await ItemFactory.methods.upgradeItemStatValue('2', '8').send();
+    }
+    catch (error) {
+      assert.strictEqual(error.message, "VM Exception while processing transaction: revert This item is not upgradable");
+    }
+
+  });
+
+  it("should upgrade item level", async function () {
+
+    await ItemFactory.methods.incrementItemLvl('1').send();
+    stats = await ItemFactory.methods.getItemInfo('1').call();
+
+    assert.strictEqual('1', stats[4]);
+  });
+
+  it("should not allow to level up higher than level 3", async function () {
+
+    await ItemFactory.methods.incrementItemLvl('1').send();
+    await ItemFactory.methods.incrementItemLvl('1').send();
+
+    try {
+        await ItemFactory.methods.incrementItemLvl('1').send();
+    }
+    catch (error) {
+      assert.strictEqual(error.message, "VM Exception while processing transaction: revert This item is not upgradable");
+    }
+    
+  });
 
 
 })
