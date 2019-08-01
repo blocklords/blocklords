@@ -44,5 +44,14 @@ contract HeroToken is ERC721Full, ERC721Mintable, Ownable {
         return _exists(tokenId);
     }
 
+    /**
+     * @dev Returns token URI
+     * @return string token uri
+     */
+    function baseTokenURI() public view returns (string memory) {
+        return "https://herotoken-uri.herokuapp.com/api/hero/";
+  }
+
+
 }
 
