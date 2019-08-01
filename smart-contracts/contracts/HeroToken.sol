@@ -1,7 +1,8 @@
 pragma solidity ^0.5.0;
 
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import "openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
+// import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+// import "openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
+import "opensea/TradeableERC721Token.sol";
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol";
 
 /**
@@ -10,9 +11,9 @@ import "openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol";
 * @notice Contract for ERC721 Hero token
 */
 
-contract HeroToken is ERC721Full, ERC721Mintable, Ownable {
+contract HeroToken is ERC721Mintable, ERC721Mintable {
   
-	constructor(string memory _name, string memory _symbol) ERC721Full(_name, _symbol) public { }
+	constructor(address _proxyRegistryAddress) TradeableERC721Token("Hero", "HERO", _proxyRegistryAddress) public { }
 
     /**
     * @dev calculates the next token ID based on totalSupply
@@ -48,9 +49,9 @@ contract HeroToken is ERC721Full, ERC721Mintable, Ownable {
      * @dev Returns token URI
      * @return string token uri
      */
-    function baseTokenURI() public view returns (string memory) {
-        return "https://herotoken-uri.herokuapp.com/api/hero/";
-  }
+  //   function baseTokenURI() public view returns (string memory) {
+  //       return "https://herotoken-uri.herokuapp.com/api/hero/";
+  // }
 
 
 }
