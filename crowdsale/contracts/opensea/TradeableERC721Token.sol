@@ -1,8 +1,9 @@
 pragma solidity ^0.5.0;
 
-import 'openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol';
-import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
-import './Strings.sol';
+import "openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol";
+import "./Strings.sol";
 
 contract OwnableDelegateProxy { }
 
@@ -14,24 +15,29 @@ contract ProxyRegistry {
  * @title TradeableERC721Token
  * TradeableERC721Token - ERC721 contract that whitelists a trading address, and has minting functionality.
  */
-contract TradeableERC721Token is ERC721Full, Ownable {
+contract TradeableERC721Token is ERC721Full, ERC721Mintable, Ownable {
   using Strings for string;
 
   address proxyRegistryAddress;
   uint256 private _currentTokenId = 0;
 
-  constructor(string memory _name, string memory _symbol, address _proxyRegistryAddress) ERC721Full(_name, _symbol) public {
-    proxyRegistryAddress = _proxyRegistryAddress;
-  }
+  // constructor(string memory _name, string memory _symbol, address _proxyRegistryAddress) ERC721Full(_name, _symbol) public {
+  //   proxyRegistryAddress = _proxyRegistryAddress;
+  // }
+
+  constructor(string memory _name, string memory _symbol) ERC721Full(_name, _symbol) public {  }
+
 
   /**
     * @dev Mints a token to an address with a tokenURI.
     * @param _to address of the future owner of the token
+    * @return uint256 for the token ID
     */
-  function mintTo(address _to) public onlyOwner {
+  function mintTo(address _to) public onlyOwner returns (uint256) {
     uint256 newTokenId = _getNextTokenId();
-    _mint(_to, newTokenId);
+    mint(_to, newTokenId);
     _incrementTokenId();
+    return  newTokenId;
   }
 
   /**
