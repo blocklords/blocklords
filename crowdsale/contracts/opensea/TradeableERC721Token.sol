@@ -33,7 +33,7 @@ contract TradeableERC721Token is ERC721Full, ERC721Mintable, Ownable {
     * @param _to address of the future owner of the token
     * @return uint256 for the token ID
     */
-  function mintTo(address _to) public onlyOwner returns (uint256) {
+  function mintTo(address _to) public /*onlyOwner*/ returns (uint256) {
     uint256 newTokenId = _getNextTokenId();
     mint(_to, newTokenId);
     _incrementTokenId();
