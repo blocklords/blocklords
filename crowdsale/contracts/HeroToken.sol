@@ -55,4 +55,3 @@ contract HeroToken is ERC721Mintable, ERC721Mintable {
 
 
 }
-

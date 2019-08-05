@@ -1,0 +1,97 @@
+{
+  "className": "MinterRole",
+  "args": [],
+  "code": "",
+  "runtimeBytecode": "",
+  "realRuntimeBytecode": "",
+  "linkReferences": {},
+  "swarmHash": "",
+  "gasEstimates": null,
+  "functionHashes": {
+    "addMinter(address)": "983b2d56",
+    "isMinter(address)": "aa271e1a",
+    "renounceMinter()": "98650275"
+  },
+  "abiDefinition": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "addMinter",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "renounceMinter",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "isMinter",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "MinterAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "MinterRemoved",
+      "type": "event"
+    }
+  ],
+  "filename": "/home/x332/Projects/blocklords/blocklords_2.0/smart-contracts/.embark/node_modules/openzeppelin-solidity/contracts/access/roles/MinterRole.sol",
+  "originalFilename": "contracts//home/x332/Projects/blocklords/blocklords_2.0/smart-contracts/.embark/node_modules/openzeppelin-solidity/contracts/access/roles/MinterRole.sol",
+  "path": "/home/x332/Projects/blocklords/blocklords_2.0/smart-contracts/contracts/.embark/node_modules/openzeppelin-solidity/contracts/access/roles/MinterRole.sol",
+  "gas": "auto",
+  "type": "file",
+  "deploy": false,
+  "_gasLimit": 6000000,
+  "error": false
+}
