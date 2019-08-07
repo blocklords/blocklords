@@ -56,7 +56,7 @@ contract TradeableERC721Token is ERC721Full, ERC721Mintable, Ownable {
   }
 
   function baseTokenURI() public view returns (string memory) {
-    return "";
+    return "https://blocklords-test.herokuapp.com/api/hero/";
   }
 
   function tokenURI(uint256 _tokenId) external view returns (string memory) {
